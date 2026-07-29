@@ -13,9 +13,10 @@ from webapp.auth.email import send_password_reset_email
 
 from webapp.main.classes.conseiller import Conseiller
 
-@bp.route('/creerConseiller', methods=['GET', 'POST'])
-@bp.endpoint('creerConseiller')
-#@roles_required('admin')
+
+@bp.route("/creerConseiller", methods=["GET", "POST"])
+@bp.endpoint("creerConseiller")
+# @roles_required('admin')
 def creerConseiller():
     form = ConseillerCreationForm()
     if form.validate_on_submit():
@@ -24,8 +25,7 @@ def creerConseiller():
                 form.username.name: form.username.data,
                 form.date_debut.name: form.date_debut.data,
                 form.date_fin.name: form.date_fin.data,
-                form.password.name: generate_password_hash(form.password.data)
-
+                form.password.name: generate_password_hash(form.password.data),
             }
             print(data)
             u = Conseiller(**data)
@@ -35,9 +35,13 @@ def creerConseiller():
             elif not insertion:
                 flash("Erreur dans la base de donnée !")
             else:
-                flash('Un Conseiller a été Créé')
-                return redirect(url_for('main.index'))
+                flash("Un Conseiller a été Créé")
+                return redirect(url_for("main.index"))
         else:
-            form.password_bis.errors.append('Mot de passe non confirmé !')
-    return render_template('admin/creerConseiller.html', title='creation consieller',
-                           user=current_user, form=form)
+            form.password_bis.errors.append("Mot de passe non confirmé !")
+    return render_template(
+        "admin/creerConseiller.html",
+        title="creation consieller",
+        user=current_user,
+        form=form,
+    )

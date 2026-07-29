@@ -1,6 +1,8 @@
 from webapp import db
+
 # To convert the binary to pdf import:
 import os, base64
+
 # To convert back:
 from io import BytesIO
 from flask import send_file
@@ -24,36 +26,35 @@ class Demande(db.Model):
     piece_id = db.Column(db.LargeBinary, default=None)
     just_salaire = db.Column(db.LargeBinary, default=None)
     just_domicile = db.Column(db.LargeBinary, default=None)
-    conseiller_id = db.Column(db.Integer, db.ForeignKey('conseiller.id'))
-
+    conseiller_id = db.Column(db.Integer, db.ForeignKey("conseiller.id"))
 
     def accepter(self):
         pass
 
     def afficher(self):
         return {
-            'id' : self.id,
+            "id": self.id,
             # 'username' : self.username,
-            'Nom' : self.nom,
-            'Prénom' : self.prenom,
-            'e-mail' : self.email,
-            'Téléphone': self.tel,
-            'Adresse': self.adresse ,
-            'Revenu mensuel': self.revenu_mensuel
+            "Nom": self.nom,
+            "Prénom": self.prenom,
+            "e-mail": self.email,
+            "Téléphone": self.tel,
+            "Adresse": self.adresse,
+            "Revenu mensuel": self.revenu_mensuel,
         }
 
     def data_dict(self):
         return {
-            'id' : self.id,
-            'username' : self.username,
-            'nom' : self.nom,
-            'prenom' : self.prenom,
-            'email' : self.email,
-            'tel': self.tel,
-            'adresse': self.adresse ,
-            'revenu_mensuel': self.revenu_mensuel,
-            'piece_id' : self.piece_id,
-            'just_salaire' : self.just_salaire,
-            'just_domicile' : self.just_domicile,
-            'conseiller_id' : self.conseiller_id
+            "id": self.id,
+            "username": self.username,
+            "nom": self.nom,
+            "prenom": self.prenom,
+            "email": self.email,
+            "tel": self.tel,
+            "adresse": self.adresse,
+            "revenu_mensuel": self.revenu_mensuel,
+            "piece_id": self.piece_id,
+            "just_salaire": self.just_salaire,
+            "just_domicile": self.just_domicile,
+            "conseiller_id": self.conseiller_id,
         }

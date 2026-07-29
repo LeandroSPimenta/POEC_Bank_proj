@@ -5,6 +5,7 @@ from webapp.conseiller import bp
 from webapp.main.classes.compte_courant import CompteCourant
 from webapp.main.classes.demande import Demande
 from webapp.main.classes.client import Client
+
 # from webapp.main.classes.compte import CompteCourant
 from webapp.main.classes.utilisateur import db
 from io import BytesIO
@@ -14,27 +15,26 @@ from webapp.auth.email import send_password_new_account_email
 import time
 from flask_babel import _, lazy_gettext as _l
 
-
 # from webapp.main.classes.conseiller import Conseiller
 
 
-@bp.route('/index', methods=['GET'])
-@bp.route('/gerer_demandes', methods=['GET', 'POST'])
-@bp.endpoint('gerer_demandes')
+@bp.route("/index", methods=["GET"])
+@bp.route("/gerer_demandes", methods=["GET", "POST"])
+@bp.endpoint("gerer_demandes")
 @login_required
 def gerer_demandes():
-    if current_user.is_authenticated and current_user.discriminator == 'conseiller':
+    if current_user.is_authenticated and current_user.discriminator == "conseiller":
         my_string = request.full_path
         ids_demandes = current_user.demande.with_entities(Demande.id).all()
         ids_clients = current_user.clients.with_entities(Client.id).all()
         print("Il y a ", len(ids_demandes), "demandes")
 
-        if 'accepter' in my_string:
+        if "accepter" in my_string:
             id = int(my_string.split("=", 1)[1])
             if (id,) in ids_demandes:
                 print(ids_demandes)
                 data = Demande.query.get(id).data_dict()
-                del data['id']
+                del data["id"]
                 # CREATE A CLIENT
                 client = Client(**data)
                 compte = CompteCourant(titulaire_id=id)
@@ -59,7 +59,7 @@ def gerer_demandes():
             else:
                 pass
 
-        elif 'refuser' in my_string:
+        elif "refuser" in my_string:
             id = int(my_string.split("=", 1)[1])
             # Efface l'entrée dans la table Demande
             if (id,) in ids_demandes:
@@ -67,7 +67,7 @@ def gerer_demandes():
                 db.session.delete(demande)
                 db.session.commit()
 
-        elif 'supprimer' in my_string:
+        elif "supprimer" in my_string:
             id = int(my_string.split("=", 1)[1])
             if (id,) in ids_clients:
                 id = int(my_string.split("=", 1)[1])
@@ -78,23 +78,25 @@ def gerer_demandes():
         total_de_demandes = current_user.demande.count()
         clients = current_user.clients.all()
         demandes = current_user.demande.all()
-        return render_template('conseiller/gerer_demandes.html',
-                               title="Gestion des demandes",
-                               clients=clients,
-                               demandes=demandes,
-                               total_de_demandes=total_de_demandes,
-                               total_de_clients=total_de_clients,
-                               ids_demandes=ids_demandes)
-    return redirect(url_for('main.index'))
+        return render_template(
+            "conseiller/gerer_demandes.html",
+            title="Gestion des demandes",
+            clients=clients,
+            demandes=demandes,
+            total_de_demandes=total_de_demandes,
+            total_de_clients=total_de_clients,
+            ids_demandes=ids_demandes,
+        )
+    return redirect(url_for("main.index"))
 
 
-@bp.route('/display_piece_id', methods=['GET', 'POST'])
-@bp.endpoint('display_piece_id')
+@bp.route("/display_piece_id", methods=["GET", "POST"])
+@bp.endpoint("display_piece_id")
 def display_piece_id():
     my_string = request.full_path
     if "=" in my_string:
         id = my_string.split("=", 1)[1]
-        if id[0] == 'c':
+        if id[0] == "c":
             id = int(id[1:])
             demande_data = Client.query.get(id)
         else:
@@ -104,17 +106,21 @@ def display_piece_id():
             # Returning Files From a Database in Flask
             # https: // www.youtube.com / watch?v = QPI3rzZow6k
             if demande_data:
-                return send_file(BytesIO(demande_data), attachment_filename="flask.pdf", as_attachment=True)
-    return render_template('conseiller/display_piece_id.html')
+                return send_file(
+                    BytesIO(demande_data),
+                    attachment_filename="flask.pdf",
+                    as_attachment=True,
+                )
+    return render_template("conseiller/display_piece_id.html")
 
 
-@bp.route('/display_just_domicile', methods=['GET', 'POST'])
-@bp.endpoint('display_just_domicile')
+@bp.route("/display_just_domicile", methods=["GET", "POST"])
+@bp.endpoint("display_just_domicile")
 def display_just_domicile():
     my_string = request.full_path
     if "=" in my_string:
         id = my_string.split("=", 1)[1]
-        if id[0] == 'c':
+        if id[0] == "c":
             id = int(id[1:])
             demande_data = Client.query.get(id)
         else:
@@ -124,17 +130,21 @@ def display_just_domicile():
             # Returning Files From a Database in Flask
             # https: // www.youtube.com / watch?v = QPI3rzZow6k
             if demande_data:
-                return send_file(BytesIO(demande_data), attachment_filename="flask.pdf", as_attachment=True)
-    return render_template('conseiller/display_just_domicile.html')
+                return send_file(
+                    BytesIO(demande_data),
+                    attachment_filename="flask.pdf",
+                    as_attachment=True,
+                )
+    return render_template("conseiller/display_just_domicile.html")
 
 
-@bp.route('/display_just_salaire', methods=['GET', 'POST'])
-@bp.endpoint('display_just_salaire')
+@bp.route("/display_just_salaire", methods=["GET", "POST"])
+@bp.endpoint("display_just_salaire")
 def display_just_salaire():
     my_string = request.full_path
     if "=" in my_string:
         id = my_string.split("=", 1)[1]
-        if id[0] == 'c':
+        if id[0] == "c":
             id = int(id[1:])
             demande_data = Client.query.get(id)
         else:
@@ -144,5 +154,9 @@ def display_just_salaire():
             # Returning Files From a Database in Flask
             # https: // www.youtube.com / watch?v = QPI3rzZow6k
             if demande_data:
-                return send_file(BytesIO(demande_data), attachment_filename="flask.pdf", as_attachment=True)
-    return render_template('conseiller/display_just_salaire.html')
+                return send_file(
+                    BytesIO(demande_data),
+                    attachment_filename="flask.pdf",
+                    as_attachment=True,
+                )
+    return render_template("conseiller/display_just_salaire.html")

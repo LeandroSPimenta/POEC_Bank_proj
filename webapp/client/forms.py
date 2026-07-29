@@ -9,9 +9,9 @@ from webapp.main.classes.compte import Compte
 
 
 class CompteEpargneCreationForm(FlaskForm):
-    titulaire_id = IntegerField(_l('titulaire'), validators=[DataRequired()])
-    taux_remuneration = StringField(_l('Taux de rémuneration'), default=0.02)
-    submit = SubmitField(_l('Creation'))
+    titulaire_id = IntegerField(_l("titulaire"), validators=[DataRequired()])
+    taux_remuneration = StringField(_l("Taux de rémuneration"), default=0.02)
+    submit = SubmitField(_l("Creation"))
 
 
 def compte_src_choices():
@@ -27,13 +27,13 @@ def compte_dest_choices():
 
 
 class VirementForm(FlaskForm):
-    #compte_src = IntegerField('Compte émetteur', validators=[DataRequired()])
-    #compte_dest = IntegerField('Compte récepteur', validators=[DataRequired()])
-    valeur = FloatField('Somme', validators=[DataRequired()])
-    motif = StringField('Motif')
+    # compte_src = IntegerField('Compte émetteur', validators=[DataRequired()])
+    # compte_dest = IntegerField('Compte récepteur', validators=[DataRequired()])
+    valeur = FloatField("Somme", validators=[DataRequired()])
+    motif = StringField("Motif")
     submit = SubmitField("Effectuer le virement")
-    compte_src = SelectField("Compte émetteur", default='')
-    compte_dest = SelectField("Compte récepteur", default='')
+    compte_src = SelectField("Compte émetteur", default="")
+    compte_dest = SelectField("Compte récepteur", default="")
 
     def __init__(self):
         super(VirementForm, self).__init__()

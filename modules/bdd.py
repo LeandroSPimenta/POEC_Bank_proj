@@ -1,14 +1,16 @@
-
 import mysql.connector
 import configs.config
-#from mysql.connector import Error
+
+# from mysql.connector import Error
 from configs.config import DATABASE
 
 
-def connexion_bdd(user='root', password='', host='127.0.0.1', database=DATABASE):
+def connexion_bdd(user="root", password="", host="127.0.0.1", database=DATABASE):
     try:
         print("connexion")
-        cnx = mysql.connector.connection.MySQLConnection(user=user, password=password, host=host, database=database)
+        cnx = mysql.connector.connection.MySQLConnection(
+            user=user, password=password, host=host, database=database
+        )
     except mysql.connector.Error as err:
         if err.errno == mysql.connector.errorcode.ER_ACCESS_DENIED_ERROR:
             print("Il y a un problème avec votre user name ou password")
@@ -28,12 +30,14 @@ def envoi_requete(cursor, requete, donnees=None):
             cursor.execute(requete)
         elif isinstance(donnees, tuple):
             cursor.execute(requete, donnees)
-        elif isinstance(donnees, list) and all(isinstance(element, tuple) for element in donnees):
+        elif isinstance(donnees, list) and all(
+            isinstance(element, tuple) for element in donnees
+        ):
             cursor.executemany(requete, donnees)
         else:
-            print('format de données incompatible')
+            print("format de données incompatible")
     except mysql.connector.errors.IntegrityError:
-        print('Données déjà dans la bdd')
+        print("Données déjà dans la bdd")
         raise
 
 

@@ -6,8 +6,5 @@ from flask_babel import lazy_gettext as _l
 
 
 class CommentForm(FlaskForm):
-    body = StringField(_l('Text'), widget=TextArea(), validators=[DataRequired()])
+    body = StringField(_l("Text"), widget=TextArea(), validators=[DataRequired()])
     submit = SubmitField(_l("Poster"))
-
-
-
