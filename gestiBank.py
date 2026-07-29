@@ -9,17 +9,17 @@ cli.register(app)
 
 @app.shell_context_processor
 def make_shell_context():
-    return {'db': db,
-            'User': Utilisateur,
-            'Conseiller': Conseiller,
-            'Client': Client,
-            'Demande': Demande,
-            'gph': gph,
-            'Message': Message,
-            'mail': mail,
-            'Compte': Compte,
-            'CompteCourant': CompteCourant,
-            'CompteEpargne': CompteEpargne,
-            'Operation': Operation
-            }
-
+    return {
+        "db": db,
+        "User": Utilisateur,
+        "Conseiller": Conseiller,
+        "Client": Client,
+        "Demande": Demande,
+        "gph": gph,
+        "Message": Message,
+        "mail": mail,
+        "Compte": Compte,
+        "CompteCourant": CompteCourant,
+        "CompteEpargne": CompteEpargne,
+        "Operation": Operation,
+    }

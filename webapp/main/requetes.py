@@ -26,4 +26,3 @@ def delete_database_data(*args):
         for elem in select_all(table):
             db.session.delete(elem)
     db.session.commit()
-

@@ -6,15 +6,25 @@ import datetime
 
 class Conseiller(Utilisateur):
     # __tablename__ = 'conseiller'
-    __mapper_args__ = {'polymorphic_identity': 'conseiller'}
-    id = db.Column(db.Integer, db.ForeignKey('utilisateur.id'), primary_key=True)
+    __mapper_args__ = {"polymorphic_identity": "conseiller"}
+    id = db.Column(db.Integer, db.ForeignKey("utilisateur.id"), primary_key=True)
     date_debut = db.Column(db.DateTime, index=True, default=datetime.datetime.utcnow)
     date_fin = db.Column(db.DateTime, index=True, default=None)
-    demande = db.relationship('Demande', backref='mon_conseiller', lazy='dynamic', foreign_keys='Demande.conseiller_id')
-    clients = db.relationship('Client', backref='mon_conseiller', lazy='dynamic', foreign_keys='Client.conseiller_id')
+    demande = db.relationship(
+        "Demande",
+        backref="mon_conseiller",
+        lazy="dynamic",
+        foreign_keys="Demande.conseiller_id",
+    )
+    clients = db.relationship(
+        "Client",
+        backref="mon_conseiller",
+        lazy="dynamic",
+        foreign_keys="Client.conseiller_id",
+    )
 
     def __repr__(self):
-        return '<Conseiller {} {}>'.format(self.nom, self.prenom)
+        return "<Conseiller {} {}>".format(self.nom, self.prenom)
 
     @classmethod
     def creer(cls, data_user, data_conseiller, role, cnx=None):

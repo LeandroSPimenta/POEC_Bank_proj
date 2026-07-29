@@ -8,6 +8,7 @@ from webapp.main.classes.admin import Admin
 class TestUtilisateur(unittest.TestCase):
     connexion = None
     cursor = None
+
     @classmethod
     def setUpClass(cls):
         TestUtilisateur.connexion = connexion_bdd(database=DATABASE_TEST)
@@ -32,14 +33,19 @@ class TestUtilisateur(unittest.TestCase):
         req = "DROP TABLE utilisateur"
         envoi_requete(TestUtilisateur.cursor, req)
 
-
     @classmethod
     def tearDownClass(cls):
         fermeture(TestUtilisateur.connexion, TestUtilisateur.cursor)
 
     def test_connexion_utilisateur(self):
-        donnees_test = ('admin', '*4ACFE3202A5FF5CF467898FC58AAB1D615029441', 'Smith', 'John', 'john.smith@domain.com')
+        donnees_test = (
+            "admin",
+            "*4ACFE3202A5FF5CF467898FC58AAB1D615029441",
+            "Smith",
+            "John",
+            "john.smith@domain.com",
+        )
         user = Utilisateur()
-        result = user.connexion('admin', 'admin', TestUtilisateur.connexion)
-        #self.assertTupleEqual(result, donnees_test)
+        result = user.connexion("admin", "admin", TestUtilisateur.connexion)
+        # self.assertTupleEqual(result, donnees_test)
         self.assertIsInstance(result, Admin)
